@@ -25,43 +25,27 @@ with dag:
 
     # Drop the oltp db if it already exists
     t1 = PostgresOperator(
-        task_id="drop_oltp",
+        task_id="drop_db",
         sql="DROP DATABASE IF EXISTS dvdrentals;",
         postgres_conn_id="pg_main",
         autocommit=True
     )
 
-    # Drop the olap db if it already exists
-    t2 = PostgresOperator(
-        task_id="drop_olap",
-        sql="DROP DATABASE IF EXISTS dvdrentals_dw;",
-        postgres_conn_id="pg_main",
-        autocommit=True
-    )
-
     # Create the OLTP db
-    t3 = PostgresOperator(
-        task_id="create_oltp",
+    t2 = PostgresOperator(
+        task_id="create_db",
         sql="CREATE DATABASE dvdrentals;",
         postgres_conn_id="pg_main",
         autocommit=True
     )
 
-    # Create the OLAP database
-    t4 = PostgresOperator(
-        task_id="create_olap",
-        sql="CREATE DATABASE dvdrentals_dw",
+    # Create a separate schema in the 
+    t3 = PostgresOperator(
+        task_id="create_schema",
+        sql="CREATE SCHEMA dw;",
         postgres_conn_id="pg_main",
+        database="dvdrentals",
         autocommit=True
     )
 
-    # Create tables for OLAP db
-    t5 = PostgresOperator(
-        task_id="create_tables",
-        sql="tables.sql",
-        postgres_conn_id="pg_main",
-        database="dvdrentals_dw",
-        autocommit=True
-    )
-
-    t1 >> t2 >> [t3, t4] >> t5
+    t1 >> t2 >> t3
