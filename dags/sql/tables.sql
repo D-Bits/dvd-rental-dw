@@ -1,5 +1,5 @@
 
-CREATE TABLE dw.fact_sales
+CREATE TABLE fact_sales
 (
     id SERIAL PRIMARY KEY,
     film_id INT REFERENCES dw.dim_film (id),
@@ -10,7 +10,7 @@ CREATE TABLE dw.fact_sales
     amount DECIMAL NOT NULL
 );
 
-CREATE TABLE dw.dim_film
+CREATE TABLE dim_film
 (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
@@ -26,7 +26,7 @@ CREATE TABLE dw.dim_film
     special_features TEXT
 );
 
-CREATE TABLE dw.dim_customer
+CREATE TABLE dim_customer
 (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
