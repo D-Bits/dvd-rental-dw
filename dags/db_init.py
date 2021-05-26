@@ -25,15 +25,23 @@ with dag:
 
     # Drop the OLTP db if it already exists
     t1 = PostgresOperator(
-        task_id="drop_db",
+        task_id="drop_oltp",
         sql="DROP DATABASE IF EXISTS dvdrentals;",
+        postgres_conn_id="pg_main",
+        autocommit=True
+    )
+
+    # Drop the OLTP db if it already exists
+    t1 = PostgresOperator(
+        task_id="drop_olap",
+        sql="DROP DATABASE IF EXISTS dvdrentals_dw;",
         postgres_conn_id="pg_main",
         autocommit=True
     )
 
     # Create the OLTP db
     t2 = PostgresOperator(
-        task_id="create_olpt",
+        task_id="create_oltp",
         sql="CREATE DATABASE dvdrentals;",
         postgres_conn_id="pg_main",
         autocommit=True
