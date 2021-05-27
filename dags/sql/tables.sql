@@ -1,15 +1,4 @@
 
-CREATE TABLE fact_sales
-(
-    id SERIAL PRIMARY KEY,
-    film_id INT REFERENCES dim_film (id),
-    customer_id INT REFERENCES dim_customer (id),
-    rental_date TIMESTAMP NOT NULL,
-    return_date TIMESTAMP NOT NULL,
-    payment_date TIMESTAMP NOT NULL,
-    amount DECIMAL NOT NULL
-);
-
 CREATE TABLE dim_film
 (
     id SERIAL PRIMARY KEY,
@@ -36,4 +25,15 @@ CREATE TABLE dim_customer
     create_date DATE,
     last_update TIMESTAMP,
     active INT
+);
+
+CREATE TABLE fact_sales
+(
+    id SERIAL PRIMARY KEY,
+    film_id INT REFERENCES dim_film (id),
+    customer_id INT REFERENCES dim_customer (id),
+    rental_date TIMESTAMP NOT NULL,
+    return_date TIMESTAMP NOT NULL,
+    payment_date TIMESTAMP NOT NULL,
+    amount DECIMAL NOT NULL
 );
